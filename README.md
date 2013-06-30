@@ -14,14 +14,14 @@ projecto GIT do tinyMCE:
 
 ## Instruções
 
-É necessário criar uma base de dados mysql seguindo a estrutura do
-ficheiro phpBlogDB.sql
+É necessário criar uma base de dados mysql seguindo a estrutura do ficheiro
+phpBlogDB.sql
 
 É também necessário trocar o nome do ficheiro core/init.inc.php.example
-para core/init.inc.php, e prencher as variaveis do mesmo com
-os valores correspondentes ao acésso à base de dados.  
-Caso seja usada a estrutura do ficheiro phpBlogDB.sql, as credenciais
-para entrar no blog são:
+para core/init.inc.php, e preencher as variáveis do mesmo com os valores
+correspondentes ao acesso à base de dados.  
+Caso seja usada a estrutura do ficheiro phpBlogDB.sql, as credenciais para
+entrar no blogue são:
 
 * Nome: test_user
 * Email: test@example.com
