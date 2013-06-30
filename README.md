@@ -8,4 +8,4 @@ O tinyMCE está abrangido pela licensa GPLv2 da GNU.
 
 This application was made with the purpose of deepening my knowledge in php. This is a simple blog engine. All the code used in this project (except tinymce) is covered by the GNU GPLv3 license.
 
-The tinyMCE is covered by the GNU GPLv2 license.
+The tinyMCE is covered by the GNU LGPLv2 license.
