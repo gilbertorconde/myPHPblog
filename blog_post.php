@@ -39,6 +39,7 @@ echo
 <body>
 <div id="main">
 ';
+include('resources/github_ribbons.php');
 $current = 'post';
 include('resources/header.php');
 

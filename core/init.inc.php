@@ -1,24 +1,24 @@
 <?php
 
-$host = '';
-$usernm = '';
-$passwd = '';
-$dbname = '';
+$host = 'localhost';
+$usernm = 'root';
+$passwd = '@rcarlos';
+$dbname = 'phpBlog';
 $link = '';
 
-$mysql_host = "";
-$mysql_database = "";
-$mysql_user = "";
-$mysql_password = "";
+$mysql_host = "mysql15.000webhost.com";
+$mysql_database = "a5877085_phpBlog";
+$mysql_user = "a5877085_user";
+$mysql_password = "2Rcarlos";
 
-//mysql_connect($host, $usernm, $passwd);
-//mysql_select_db($dbname);
+mysql_connect($host, $usernm, $passwd);
+mysql_select_db($dbname);
 
-mysql_connect($mysql_host, $mysql_user, $mysql_password);
-mysql_select_db($mysql_database);
+//mysql_connect($mysql_host, $mysql_user, $mysql_password);
+//mysql_select_db($mysql_database);
 
-//$mysqli = new mysqli($host, $usernm, $passwd, $dbname);
-$mysqli = new mysqli($mysql_host, $mysql_user, $mysql_password, $mysql_database);
+$mysqli = new mysqli($host, $usernm, $passwd, $dbname);
+//$mysqli = new mysqli($mysql_host, $mysql_user, $mysql_password, $mysql_database);
 
 function curPageURL() {
     $pageURL = 'http';

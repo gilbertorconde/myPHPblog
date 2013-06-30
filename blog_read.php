@@ -41,6 +41,7 @@ echo
 <div id="socialMessage" class="message" style="color: green;"></div>
 <div id="main">
 ';
+include('resources/github_ribbons.php');
 $current = 'read';
 include('resources/header.php');
 

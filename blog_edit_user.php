@@ -51,6 +51,7 @@ echo
 <body>
 <div id="main">
 ';
+include('resources/github_ribbons.php');
 $current = 'user';
 include('resources/header.php');
 
