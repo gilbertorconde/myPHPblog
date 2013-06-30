@@ -43,12 +43,12 @@ tiniMCE GIT project:
 
 ## Instructions
 
-Is necessary to create a database mysql following the structure of
+Is necessary to create a mysql database following the structure of
 file phpBlogDB.sql
 
 It is also necessary to change the name of the file
 core/init.inc.php.example for core/init.inc.php, and fill the
-variables with the values ​​corresponding to the access database.  
+variables with the values​corresponding to the access database.  
 If you use phpBlogDB.sql as structure file, the credential
 to enter the blog are:
 
