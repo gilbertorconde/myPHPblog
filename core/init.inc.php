@@ -11,12 +11,6 @@ $mysql_database = "a5877085_phpBlog";
 $mysql_user = "a5877085_user";
 $mysql_password = "2Rcarlos";
 
-mysql_connect($host, $usernm, $passwd);
-mysql_select_db($dbname);
-
-//mysql_connect($mysql_host, $mysql_user, $mysql_password);
-//mysql_select_db($mysql_database);
-
 $mysqli = new mysqli($host, $usernm, $passwd, $dbname);
 //$mysqli = new mysqli($mysql_host, $mysql_user, $mysql_password, $mysql_database);
 

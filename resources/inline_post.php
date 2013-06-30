@@ -8,12 +8,12 @@ if(login_check($mysqli) !== true) {
     die();
 } 
 if(isset($_POST['title'], $_POST['pid'])){
-    change_title_post($_POST['title'], $_POST['pid']);
+    change_title_post($_POST['title'], $_POST['pid'], $mysqli);
     echo "Feito tt";
 }
 
 if(isset($_POST['body'], $_POST['pid'])){
-    change_body_post($_POST['body'], $_POST['pid']);
+    change_body_post($_POST['body'], $_POST['pid'], $mysqli);
     echo "Feito bd";
 }
 ?>

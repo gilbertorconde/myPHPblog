@@ -31,17 +31,17 @@ echo
 <div id="content">';
 if(isset($_GET['tag'])){
 
-    $posts = get_posts_by('tag', $_GET['tag']);
+    $posts = get_posts_by('tag', $_GET['tag'], $mysqli);
     echo '<h1>Pesquisa por "'.$_GET['tag'].'"</h1>';
 
 } elseif(isset($_GET['user'])){
 
-    $posts = get_posts_by('user', $_GET['user']);
+    $posts = get_posts_by('user', $_GET['user'], $mysqli);
     echo '<h1>Pesquisa por "'.$_GET['user'].'"</h1>';
 
 } else {
 
-    $posts = get_posts();
+    $posts = get_posts(false, $mysqli);
     echo '<h1>Artigos</h1>';
 
 }
@@ -60,7 +60,7 @@ foreach ($posts as $key => $post){
         ." comentário(s) (ultimo ".$post['last_comment'].")</a></h5>\n";
     echo "</header>\n";
     echo "<div>".closetags($post['preview'])."<br /><p><a href=\"blog_read.php?pid=".$post['id']."\">Ver artigo completo</a></p></div>\n";
-    $tags = get_tags($post['id']);
+    $tags = get_tags($post['id'], $mysqli);
     if(isset($tags) && !(empty($tags))){
         echo "<p>Categorias: ";
         $last_key_tag = end(array_keys($tags));

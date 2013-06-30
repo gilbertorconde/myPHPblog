@@ -18,7 +18,7 @@ if (isset($_POST['submit'])){
         !(empty($_POST['user']) || empty($_POST['title']) || empty($_POST['body']) || empty($_POST['tags']))){
         $aux = explode( ',', $_POST['tags']);
         $tags = array_map('trim',$aux);
-        $pid = add_post($_POST['user'], $_POST['title'], $_POST['body'], $tags);
+        $pid = add_post($_POST['user'], $_POST['title'], $_POST['body'], $tags, $mysqli);
         header('Location: blog_read.php?pid='.$pid);
         die();
     } else {

@@ -1,0 +1,4 @@
+# Do not remove this line, otherwise mod_rewrite rules will stop working
+#RewriteEngine On
+RewriteBase /
+#Redirect /feed http://myphpblog.vacau.com/rss.php

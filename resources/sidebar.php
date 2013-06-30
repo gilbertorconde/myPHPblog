@@ -14,7 +14,7 @@ echo '<div id="sidebar_container">';
 //////////////////////////////////////////////////////////////////////
 
 ////////////////////////// tags //////////////////////////////////////
-$tags = get_all_tags();
+$tags = get_all_tags($mysqli);
 echo 
 '
 
@@ -62,7 +62,7 @@ echo
 <div class="sidebar">
 <h3>Arquivo</h3>
 ';
-$posta = get_posts();
+$posta = get_posts(false, $mysqli);
 
 $byear = array();
 foreach($posta as $pos){

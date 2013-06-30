@@ -36,7 +36,7 @@ if(isset($_POST['newpwd'], $_POST['oldpwd'])){
     
 }
 if (isset($_POST['about'], $_POST['userid'])){
-	change_about($_POST['userid'], $_POST['about']);
+	change_about($_POST['userid'], $_POST['about'], $mysqli);
 	$message = "<h3 style=\"color: green;\">Sobre ".$_SESSION['username']." alterado.</h3>";
 }
 
@@ -98,7 +98,7 @@ onchange=" this.setCustomValidity(this.validity.patternMismatch ?
 </fieldset>
 </form>';
 
-$user = get_user($_SESSION['user_id']);
+$user = get_user($_SESSION['user_id'], $mysqli);
 
 echo
 '<br />

@@ -1,22 +1,25 @@
 <?php
 
 // Verifica se o post passado existe
-function valid_pid($pid){
+function valid_pid($pid, $mysqli){
     $pid = (int)$pid;
-
-    $total = mysql_query("SELECT COUNT(`post_id`) from `posts` WHERE `post_id` = {$pid}");
-    $total = mysql_result($total, 0);
     
-    if ($total != 1){
-        return false;
+    if($stmt = $mysqli->prepare("SELECT COUNT(`post_id`) as `total` from `posts` WHERE `post_id` = {$pid}")){
+        $stmt->execute();
+        $stmt->bind_result($total);
+        $stmt->fetch();
+        if ($total != 1){
+            return false;
+        }
+        else {
+            return true;
+        }
     }
-    else {
-        return true;
-    }
+    return false;
 }
 
 // retorna todos os posts do blog
-function get_posts($isFull = false){
+function get_posts($isFull = false, $mysqli = false){
     $dim = $isFull ? '`posts`.`post_body`' :'LEFT( `posts`.`post_body` , 512 )';
     $dat = $isFull ? '`posts`.`post_date`' :"DATE_FORMAT( `posts`.`post_date` , '%d/%m/%Y %H:%i:%s' )";
     $sql = "SELECT `posts`.`post_id` AS `id` , `posts`.`post_title` AS `title` , ".$dim." AS `preview` , `posts`.`post_user` AS `user` , " . $dat . " AS `date` , `comments`.`total_comments` AS `total_comments` , DATE_FORMAT( `comments`.`last_comment` , '%d/%m/%Y %H:%i:%s' ) AS `last_comment`
@@ -28,27 +31,24 @@ FROM `comments`
 GROUP BY `post_id`
 ) AS `comments` ON `posts`.`post_id` = `comments`.`post_id`
 ORDER BY `posts`.`post_date` DESC";
-
-    $post = mysql_query($sql);
-
+    
     $rows = array();
-    while (($row = mysql_fetch_assoc($post)) !== false){
-        $rows[] = array(
-                        'id'             => $row['id'],
-                        'title'          => $row['title'],
-                        'preview'        => $row['preview'],
-                        'user'           => $row['user'],
-                        'date'           => $row['date'],
-                        'total_comments' => ($row['total_comments'] === null) ? 0 : $row['total_comments'],
-                        'last_comment'  => ($row['last_comment'] === null) ? 'nunca' : $row['last_comment']
-                        );
+    
+    if($mysqli != false){
+        if($stmt = $mysqli->query($sql)){
+            while ($row = $stmt->fetch_assoc()){
+                $row['total_comments'] = ($row['total_comments'] === null) ? 0 : $row['total_comments'];
+                $row['last_comment']  = ($row['last_comment'] === null) ? 'nunca' : $row['last_comment'];
+                $rows[] = $row;
+            }
+        }
     }
     return $rows;
 }
 
 
-function get_posts_by($type, $value){
-    $value = mysql_real_escape_string($value);
+function get_posts_by($type, $value, $mysqli){
+    $value = $mysqli->real_escape_string($value);
     $sql = "";
     $pids = array();
     if ($type == 'user'){
@@ -70,58 +70,56 @@ FROM `comments`
 GROUP BY `post_id`
 ) AS `comments` ON `posts`.`post_id` = `comments`.`post_id`
 ORDER BY `posts`.`post_date` DESC";
+        
+        $pids = array();
+        if($stmt = $mysqli->query("SELECT `tags`.`post_id` as `id` FROM `tags` WHERE `tag_name`='{$value}'")){
+            while ($row = $stmt->fetch_assoc()){
+                $pids[] = $row['id'];
+            }
+        }
+    }
     
-        $sqli = "SELECT `tags`.`post_id` as `id` FROM `tags` WHERE `tag_name`='{$value}'";
-        $vals = mysql_query($sqli);
-        while (($row = mysql_fetch_assoc($vals)) !== false){
-            $pids[] = $row['id'];
-        }
-    }
-    $post = mysql_query($sql);
     $rows = array();
-    while (($row = mysql_fetch_assoc($post)) !== false){
-        if (($type == 'tag' && in_array($row['id'], $pids)) || $type == 'user'){
-            $rows[] = array(
-                            'id'             => $row['id'],
-                            'title'          => $row['title'],
-                            'preview'        => $row['preview'],
-                            'user'           => $row['user'],
-                            'date'           => $row['date'],
-                            'total_comments' => ($row['total_comments'] === null) ? 0 : $row['total_comments'],
-                            'last_comment'  => ($row['last_comment'] === null) ? 'nunca' : $row['last_comment']
-                            );
+    
+    if($mysqli != false){
+        if($stmt = $mysqli->query($sql)){
+            while ($row = $stmt->fetch_assoc()){
+                if (($type == 'tag' && in_array($row['id'], $pids)) || $type == 'user'){
+                    $row['total_comments'] = ($row['total_comments'] === null) ? 0 : $row['total_comments'];
+                    $row['last_comment']  = ($row['last_comment'] === null) ? 'nunca' : $row['last_comment'];
+                    $rows[] = $row;
+                }
+            }
         }
     }
     return $rows;
 }
 
 
-function get_users(){
-    $sql = "SELECT id, username, email FROM `members`";
-    $post = mysql_query($sql);
+function get_users($mysqli){
+    
     $rows = array();
-    while (($row = mysql_fetch_assoc($post)) !== false){
-        $rows[] = array(
-                        'user_id'             => $row['id'],
-                        'user_email'        => $row['email'],
-                        'user_name'           => $row['username']
-                        );
+    if($stmt = $mysqli->query("SELECT `id` as `user_id`, `username` as `user_name`, `email` as `user_email` FROM `members`")){
+        while ($row = $stmt->fetch_assoc()){
+            $rows[] = $row;
+        }
     }
     return $rows;
 }
 
-function get_user($uid){
+function get_user($uid, $mysqli){
     $uid = (int)$uid;
-    $sql = "SELECT `username`, `email`, `about` FROM `members` WHERE `id`={$uid}";
-    $result = mysql_query($sql);
-    $rows = array();
-    $row = mysql_fetch_assoc($result);
+    if($stmt = $mysqli->query("SELECT `username`, `email`, `about` FROM `members` WHERE `id`={$uid}")){
+        $row = $stmt->fetch_assoc();
+    }
     return $row;
 }
 
 // retorna o post com o id pid
-function get_post( $pid ){
+
+function get_post( $pid, $mysqli ){
     $pid = (int)$pid;
+    $row = array();
     $sql = "SELECT
                `post_title` AS `title`,
                `post_body`  AS `body`,
@@ -130,80 +128,84 @@ function get_post( $pid ){
             FROM `posts`
             WHERE `post_id` = {$pid}";
     
-    $post = mysql_query($sql);
-    $post = mysql_fetch_assoc($post);
-    
-    $post['comments'] = get_comments($pid);
-    $sql = "SELECT `about` FROM `members` WHERE `username` = '".$post['user']."' LIMIT 1";
-    $aboutc = mysql_query($sql);
-    $row = mysql_fetch_assoc($aboutc);
-    $post['about_user'] = $row['about'];
-
-    return $post;
+    if($stmt = $mysqli->query($sql)){
+        $row = $stmt->fetch_assoc();
+        $sql = "SELECT `about` FROM `members` WHERE `username` = '".$row['user']."' LIMIT 1";
+        if($stmt = $mysqli->query($sql)){
+            $about = $stmt->fetch_assoc();
+            $row['about_user'] = $about['about'];
+        }
+    }
+    $row['comments'] = get_comments($pid, $mysqli);
+    return $row;
 }
 
-function get_tags( $pid ){
+function get_tags( $pid, $mysqli ){
     $pid = (int)$pid;
     $sql = "SELECT
                `tag_name`
             FROM `tags`
             WHERE `post_id` = {$pid}";
-    $result = mysql_query($sql);
+    
     $rows = array();
-    while($row = mysql_fetch_assoc($result)){
-        $rows[] = $row['tag_name'];
+    if($stmt = $mysqli->query($sql)){
+        while ($row = $stmt->fetch_assoc()){
+            $rows[] = $row['tag_name'];
+        }
     }
     return $rows;
 }
 
-function get_all_tags(){
+function get_all_tags($mysqli){
     $sql = "SELECT DISTINCT `tag_name`
             FROM `tags`
             ORDER BY `tags`.`tag_name` ASC";
-    $result = mysql_query($sql);
+    
     $rows = array();
-    while($row = mysql_fetch_assoc($result)){
-        $rows[] = $row['tag_name'];
+    if($stmt = $mysqli->query($sql)){
+        while ($row = $stmt->fetch_assoc()){
+            $rows[] = $row['tag_name'];
+        }
     }
     return $rows;
 }
 
-function remove_post( $pid ){
+function remove_post( $pid, $mysqli ){
     $pid = (int)$pid;
-    mysql_query("DELETE FROM `comments` WHERE `comments`.`post_id` = $pid");
-    mysql_query("DELETE FROM `posts` WHERE `posts`.`post_id` = $pid");
-    mysql_query("DELETE FROM `tags` WHERE `tags`.`post_id` = $pid");
+    $mysqli->query("DELETE FROM `comments` WHERE `comments`.`post_id` = $pid");
+    $mysqli->query("DELETE FROM `posts` WHERE `posts`.`post_id` = $pid");
+    $mysqli->query("DELETE FROM `tags` WHERE `tags`.`post_id` = $pid");
 }
 
-function change_about($user_id, $about){
-	//$about = mysql_real_escape_string(nl2br(htmlentities($about)));
-	mysql_query("UPDATE `members` SET `about` = '$about' WHERE `id` = $user_id;");
+function change_about($user_id, $about, $mysqli){
+	//$about = $mysqli->real_escape_string(nl2br(htmlentities($about)));
+    $mysqli->query("UPDATE `members` SET `about` = '$about' WHERE `id` = $user_id");
 }
 
 // adiciona um novo post a base de dados
-function add_post($name, $title, $body, $tags){
-    $name = mysql_real_escape_string(htmlentities($name));
-    $title = mysql_real_escape_string(htmlentities($title));
-    //$body = mysql_real_escape_string(nl2br(htmlentities($body)));
-    mysql_query("INSERT INTO `posts` (`post_user`, `post_title`,`post_body`, `post_date`) VALUE ('{$name}', '{$title}', '{$body}', NOW())");
-    $pid = mysql_insert_id();
+function add_post($name, $title, $body, $tags, $mysqli){
+    $name = $mysqli->real_escape_string(htmlentities($name));
+    $title = $mysqli->real_escape_string(htmlentities($title));
+    //$body = $mysqli->real_escape_string(nl2br(htmlentities($body)));
+    $mysqli->query("INSERT INTO `posts` (`post_user`, `post_title`,`post_body`, `post_date`) VALUE ('{$name}', '{$title}', '{$body}', NOW())");
+    $pid = $mysqli->insert_id;
     foreach($tags as $tag){
-        mysql_query("INSERT INTO `tags` (`post_id`, `tag_name`) VALUE ('{$pid}', '{$tag}')");
+        $mysqli->query("INSERT INTO `tags` (`post_id`, `tag_name`) VALUE ('{$pid}', '{$tag}')");
     }
     return $pid;
     
 }
 
-function change_title_post($title, $pid){
+function change_title_post($title, $pid, $mysqli){
     $pid = (int)$pid;
-    $title = mysql_real_escape_string(htmlentities($title));
-    mysql_query("UPDATE `posts` SET `post_title` = '".$title."',
+    $title = $mysqli->real_escape_string(htmlentities($title));
+    $mysqli->query("UPDATE `posts` SET `post_title` = '".$title."',
                 `post_date` = NOW( ) WHERE `post_id` =".$pid."");
 }
 
-function change_body_post($body, $pid){
+function change_body_post($body, $pid, $mysqli){
     $pid = (int)$pid;
-    mysql_query("UPDATE `posts` SET `post_body` = '".$body."',
+    $mysqli->query("UPDATE `posts` SET `post_body` = '".$body."',
                 `post_date` = NOW( ) WHERE `post_id` =".$pid."");
 }
 ?>

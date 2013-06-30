@@ -11,9 +11,9 @@ if(login_check($mysqli) == true) {
 }
 
 if(isset($_POST['remove_post'])){
-    $post = get_post($_GET['pid']); 
+    $post = get_post($_GET['pid'], $mysqli); 
     if($user_loged && ($post['user'] == $_SESSION['username'])){
-        remove_post($_GET['pid']);
+        remove_post($_GET['pid'], $mysqli);
         header("Location: blog_list.php");
         die();
     } else {
@@ -22,7 +22,7 @@ if(isset($_POST['remove_post'])){
 }
 
 if (isset($_GET['pid'], $_POST['user'], $_POST['body'])){
-    if (add_comment($_GET['pid'], $_POST['user'], $_POST['body'])){
+    if (add_comment($_GET['pid'], $_POST['user'], $_POST['body'], $mysqli)){
     }
     else {
         header("Location: blog_list.php");
@@ -49,8 +49,8 @@ echo
 '
 <div id="site_content">
 ';
-if (isset($_GET['pid']) && valid_pid($_GET['pid'])){
-    $post = get_post($_GET['pid']);
+if (isset($_GET['pid']) && valid_pid($_GET['pid'], $mysqli)){
+    $post = get_post($_GET['pid'], $mysqli);
 }
 include('resources/sidebar.php');
 
@@ -87,7 +87,7 @@ else{
     echo "</header>";
     echo "<div class=\"".$div_class."\" id=\"bodyy\" >".$post['body']."</div>";
 
-    $tags = get_tags($_GET['pid']);
+    $tags = get_tags($_GET['pid'], $mysqli);
     if(isset($tags) && !(empty($tags))){
         echo "<p>Categorias: ";
         $last_key_tag = end(array_keys($tags));
