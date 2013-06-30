@@ -10,7 +10,7 @@ $mysql_host = "mysql15.000webhost.com";
 $mysql_database = "a5877085_phpBlog";
 $mysql_user = "a5877085_user";
 $mysql_password = "2Rcarlos";
-
+//
 $mysqli = new mysqli($host, $usernm, $passwd, $dbname);
 //$mysqli = new mysqli($mysql_host, $mysql_user, $mysql_password, $mysql_database);
 
