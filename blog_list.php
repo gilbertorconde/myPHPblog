@@ -65,7 +65,7 @@ foreach ($posts as $key => $post){
         echo "<p>Categorias: ";
         $last_key_tag = end(array_keys($tags));
         foreach($tags as $key_tag => $tag){
-            echo "<a href=\"blog_list.php?tag=".$tag."\">".$tag."</a>";
+            echo "<a href=\"blog_list.php?tag=".urlencode($tag)."\">".$tag."</a>";
             if($key_tag != $last_key_tag){
                 echo ", ";
             }

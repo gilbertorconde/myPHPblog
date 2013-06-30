@@ -24,7 +24,7 @@ echo
 <ul>
 ';
 foreach($tags as $tag){
-    echo '<li><a href="blog_list.php?tag='.$tag.'">'.$tag.'</a></li>'."\n";
+    echo '<li><a href="blog_list.php?tag=' . urlencode($tag) . '">' . $tag . '</a></li>'."\n";
 }
 echo
 '
