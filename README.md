@@ -41,7 +41,7 @@ The tinyMCE is covered by the GNU LGPLv2 license.
 tiniMCE GIT project:  
 [https://github.com/tinymce/tinymce](https://github.com/tinymce/tinymce)
 
-## Istructions
+## Instructions
 
 Is necessary to create a database mysql following the structure of
 file phpBlogDB.sql
