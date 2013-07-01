@@ -18,7 +18,7 @@ p
 img
 { border: 0;}
 
-h1, h2, h3, h4, h5, h6, input[type=submit]#remove_post
+h1, h2, h3, h4, h5, h6, input[type=submit]#remove_post, input[type=submit].remove_comment
 { font: normal 250% 'Yanone Kaffeesatz', arial, sans-serif;
   color: #444;
   margin: 0 0 15px 0;
@@ -35,14 +35,14 @@ h3
   margin: 0 0 9px 0;
   color: #444;}
 
-h4, h5, h6, input[type=submit]#remove_post
+h4, h5, h6, input[type=submit]#remove_post, input[type=submit].remove_comment
 { margin: 0;
   padding: 0 0 5px 0;
   font: normal 100% arial, sans-serif;
   color: #F14E23;
   line-height: 1em;}
 
-h5, h6, input[type=submit]#remove_post
+h5, h6, input[type=submit]#remove_post, input[type=submit].remove_comment
 { font: italic 95% arial, sans-serif;
   color: #888;
   padding-bottom: 15px;}
@@ -377,17 +377,18 @@ div.message {
 div.message:hover {
     opacity: .3;
 }
-input[type=submit]#remove_post {
+input[type=submit]#remove_post, input[type=submit].remove_comment {
     border: none;
     background: none;
     outline: none;
     text-decoration: none;
     cursor:pointer;
     color: #35BDF5;
+    padding-right: 20px;
     float: right;
     font-size: 120%;
 }
 
-input[type=submit]#remove_post:hover {
+input[type=submit]#remove_post:hover, input[type=submit].remove_comment:hover {
     text-decoration: underline;
 }

@@ -16,4 +16,8 @@ if(isset($_POST['body'], $_POST['pid'])){
     change_body_post($_POST['body'], $_POST['pid'], $mysqli);
     echo "Feito bd";
 }
+if(isset($_POST['cid'])){
+    remove_comment( $_POST['cid'], $mysqli );
+    echo "Feito rc";
+}
 ?>

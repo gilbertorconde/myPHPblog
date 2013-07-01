@@ -171,6 +171,17 @@ function postBody(){
     }
 }
 
+function removeComment( cid ){
+    if(confirm(\'Pretende apagar esta comentário?\')){
+        strToPost = "cid="+cid;
+        element = document.getElementById(\'comment-\'+cid);
+        element.parentNode.removeChild(element);
+        makePostRequest(strToPost, "application/x-www-form-urlencoded");
+        return true;
+    }
+    return false;
+}
+
 function sendSocialForm(param, title) {
     strToPost = param+"="+title+"&pid='.$_GET['pid'].'";
     makePostRequest(strToPost, "application/x-www-form-urlencoded");

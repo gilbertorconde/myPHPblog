@@ -34,4 +34,13 @@ function add_comment($pid, $user, $body, $mysqli){
     return true;
 }
 
+function remove_comments( $pid, $mysqli ){
+    $pid = (int)$pid;
+    $mysqli->query("DELETE FROM `comments` WHERE `comments`.`post_id` = {$pid}");
+}
+function remove_comment( $cid, $mysqli ){
+    $cid = (int)$cid;
+    $mysqli->query("DELETE FROM `comments` WHERE `comments`.`comment_id` = {$cid}");
+}
+
 ?>

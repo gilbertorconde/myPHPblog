@@ -194,7 +194,7 @@ function get_all_tags($mysqli){
 
 function remove_post( $pid, $mysqli ){
     $pid = (int)$pid;
-    $mysqli->query("DELETE FROM `comments` WHERE `comments`.`post_id` = $pid");
+    remove_comments( $pid, $mysqli );
     $mysqli->query("DELETE FROM `posts` WHERE `posts`.`post_id` = $pid");
     $mysqli->query("DELETE FROM `tags` WHERE `tags`.`post_id` = $pid");
 }

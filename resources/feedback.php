@@ -6,15 +6,24 @@ echo
 <ol class="commentlist">
 ';
 
-    foreach ($post['comments'] as $comment){
-        echo '<li id="comment-'.$comment['comment_id'].'">';
-        echo '<h4>Por '.html_entity_decode($comment['user']).'</h4>';
-        echo '<h5> ('.$comment['date'].')</h5>';
-        echo '<div class="commentbody">';
-        echo '<p>'.html_entity_decode($comment['body']).'</p>';
-        echo '</div>';
-        echo '</li>';
+foreach ($post['comments'] as $comment){
+    echo '<li id="comment-'.$comment['comment_id'].'">';
+
+    if($user_loged && ($post['user'] == $_SESSION['username'])){
+        echo
+            "
+<form action=\"#\" method=\"post\" onsubmit=\"return removeComment({$comment['comment_id']})\" >
+<input type=\"submit\" class=\"remove_comment\" name=\"remove_comment\" id=\"remove_comment-{$comment['comment_id']}\" value=\"Remover\" />
+</form>
+";
     }
+    echo '<h4>Por '.html_entity_decode($comment['user']).'</h4>';
+    echo '<h5> ('.$comment['date'].')</h5>';
+    echo '<div class="commentbody">';
+    echo '<p>'.html_entity_decode($comment['body']).'</p>';
+    echo '</div>';
+    echo '</li>';
+}
 
 $user = "Anónimo";
 if(isset($_SESSION['username'])){

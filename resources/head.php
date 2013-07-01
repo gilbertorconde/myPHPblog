@@ -1,7 +1,7 @@
 <?php
 
 if(isset($post['title'])){
-    $head_title = $post['title'];
+    $head_title = html_entity_decode($post['title']);
 }
 else {
     $head_title = "MyPHPblog :)";
