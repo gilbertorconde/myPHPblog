@@ -29,19 +29,39 @@ include('resources/sidebar.php');
 echo
 '
 <div id="content">';
+$page = 0;
+$hasnext = false;
 if(isset($_GET['tag'])){
-
-    $posts = get_posts_by('tag', $_GET['tag'], $mysqli);
+    $uri = "blog_list.php?tag=" . $_GET['tag'] ."&";
+    $page = isset($_GET['page']) ? $_GET['page'] : 0;
+    
+    $posts = get_posts_by('tag', $_GET['tag'], $mysqli, $page);
+    if ( count($posts) > MAX_ENTRY ){
+        $hasnext = true;
+        array_pop($posts);
+    }
+    
     echo '<h1>Pesquisa por "'.$_GET['tag'].'"</h1>';
 
 } elseif(isset($_GET['user'])){
-
-    $posts = get_posts_by('user', $_GET['user'], $mysqli);
+    $uri = "blog_list.php?user=" . $_GET['user'] ."&";
+    $page = isset($_GET['page']) ? $_GET['page'] : 0;
+    
+    $posts = get_posts_by('user', $_GET['user'], $mysqli, $page);
+    if ( count($posts) > MAX_ENTRY ){
+        $hasnext = true;
+        array_pop($posts);
+    }
     echo '<h1>Pesquisa por "'.$_GET['user'].'"</h1>';
 
 } else {
-
-    $posts = get_posts(false, $mysqli);
+    $uri = "blog_list.php?";
+    $page = isset($_GET['page']) ? $_GET['page'] : 0;
+    $posts = get_posts(false, $mysqli, $page);
+    if ( count($posts) > MAX_ENTRY ){
+        $hasnext = true;
+        array_pop($posts);
+    }
     echo '<h1>Artigos</h1>';
 
 }
@@ -79,7 +99,14 @@ foreach ($posts as $key => $post){
     }
     echo "</article>\n";
 }
-
+if($hasnext){
+    $nextp = $page + 1;
+    echo "<div class=\"left\" ><a href=\"{$uri}page={$nextp}\">Mais Antigos</a></div>";
+}
+if(isset($_GET['page']) && $_GET['page'] > 0){
+    $nextp = $_GET['page'] - 1;
+    echo "<div class=\"right\" ><a href=\"{$uri}page={$nextp}\">Mais Recentes</a></div>";
+}
 echo
 '</div>
 </div>

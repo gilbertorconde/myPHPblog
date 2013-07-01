@@ -9,7 +9,7 @@ $div_class = 'notEdit';
 if(login_check($mysqli) == true) {
     $user_loged = true;
 }
-
+// Removes the actual entry
 if(isset($_POST['remove_post'])){
     $post = get_post($_GET['pid'], $mysqli); 
     if($user_loged && ($post['user'] == $_SESSION['username'])){
@@ -21,6 +21,7 @@ if(isset($_POST['remove_post'])){
     }
 }
 
+// Add coment to actual entry
 if (isset($_GET['pid'], $_POST['user'], $_POST['body'])){
     if (add_comment($_GET['pid'], $_POST['user'], $_POST['body'], $mysqli)){
     }
@@ -29,6 +30,12 @@ if (isset($_GET['pid'], $_POST['user'], $_POST['body'])){
         die();
     }
 }
+
+// Get Content from actual entry
+if (isset($_GET['pid']) && valid_pid($_GET['pid'], $mysqli)){
+    $post = get_post($_GET['pid'], $mysqli);
+}
+
 echo '<!DOCTYPE HTML>
 
 <html>'; 
@@ -49,9 +56,7 @@ echo
 '
 <div id="site_content">
 ';
-if (isset($_GET['pid']) && valid_pid($_GET['pid'], $mysqli)){
-    $post = get_post($_GET['pid'], $mysqli);
-}
+
 include('resources/sidebar.php');
 
 echo
@@ -79,7 +84,6 @@ else{
     $dat = explode(' ', $post['date']);
     $hora = $dat[1];
     $data = $dat[0];
-    //$data = explode(' ', $post['date'])[0];
     echo "<h5> Data: <time datetime=\"".$hora."\">".$data
         ."</time> por <a href=\"blog_list.php?user=".$post['user']."\">".$post['user']
         ."</a> - <a href=\"#feedback\">".count($post['comments'])

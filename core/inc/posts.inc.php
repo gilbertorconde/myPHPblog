@@ -1,5 +1,7 @@
 <?php
 
+DEFINE("MAX_ENTRY", 5);
+
 // Verifica se o post passado existe
 function valid_pid($pid, $mysqli){
     $pid = (int)$pid;
@@ -19,7 +21,13 @@ function valid_pid($pid, $mysqli){
 }
 
 // retorna todos os posts do blog
-function get_posts($isFull = false, $mysqli = false){
+function get_posts($isFull = false, $mysqli = false, $page = null){
+    $limits = "";
+    if($page !== null){
+        $pos = $page * MAX_ENTRY;
+        $quant = MAX_ENTRY + 1;
+        $limits = "LIMIT {$pos} , {$quant}";
+    }
     $dim = $isFull ? '`posts`.`post_body`' :'LEFT( `posts`.`post_body` , 512 )';
     $dat = $isFull ? '`posts`.`post_date`' :"DATE_FORMAT( `posts`.`post_date` , '%d/%m/%Y %H:%i:%s' )";
     $sql = "SELECT `posts`.`post_id` AS `id` , `posts`.`post_title` AS `title` , ".$dim." AS `preview` , `posts`.`post_user` AS `user` , " . $dat . " AS `date` , `comments`.`total_comments` AS `total_comments` , DATE_FORMAT( `comments`.`last_comment` , '%d/%m/%Y %H:%i:%s' ) AS `last_comment`
@@ -30,7 +38,9 @@ SELECT `post_id` , COUNT( `comment_id` ) AS `total_comments` , MAX( `comment_dat
 FROM `comments`
 GROUP BY `post_id`
 ) AS `comments` ON `posts`.`post_id` = `comments`.`post_id`
-ORDER BY `posts`.`post_date` DESC";
+ORDER BY `posts`.`post_date` DESC
+{$limits}
+";
     
     $rows = array();
     
@@ -47,7 +57,15 @@ ORDER BY `posts`.`post_date` DESC";
 }
 
 
-function get_posts_by($type, $value, $mysqli){
+function get_posts_by($type, $value, $mysqli, $page = null){
+    
+    $limits = "";
+    if($page !== null){
+        $pos = $page * MAX_ENTRY;
+        $quant = MAX_ENTRY + 1;
+        $limits = "LIMIT {$pos} , {$quant}";
+    }
+    
     $value = $mysqli->real_escape_string($value);
     $sql = "";
     $pids = array();
@@ -60,7 +78,9 @@ FROM `comments`
 GROUP BY `post_id`
 ) AS `comments` ON `posts`.`post_id` = `comments`.`post_id`
 WHERE `posts`.`post_user` = '$value'
-ORDER BY `posts`.`post_date` DESC";
+ORDER BY `posts`.`post_date` DESC
+{$limits}
+";
     } elseif($type == 'tag') {
         $sql = "SELECT `posts`.`post_id` AS `id` , `posts`.`post_title` AS `title` , LEFT( `posts`.`post_body` , 512 ) AS `preview` , `posts`.`post_user` AS `user` , DATE_FORMAT( `posts`.`post_date` , '%d/%m/%Y %H:%i:%s' ) AS `date` , `comments`.`total_comments` AS `total_comments` , DATE_FORMAT( `comments`.`last_comment` , '%d/%m/%Y %H:%i:%s' ) AS `last_comment`
 FROM `posts`
@@ -69,7 +89,9 @@ SELECT `post_id` , COUNT( `comment_id` ) AS `total_comments` , MAX( `comment_dat
 FROM `comments`
 GROUP BY `post_id`
 ) AS `comments` ON `posts`.`post_id` = `comments`.`post_id`
-ORDER BY `posts`.`post_date` DESC";
+ORDER BY `posts`.`post_date` DESC
+{$limits}
+";
         
         $pids = array();
         if($stmt = $mysqli->query("SELECT `tags`.`post_id` as `id` FROM `tags` WHERE `tag_name`='{$value}'")){
