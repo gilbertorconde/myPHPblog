@@ -79,7 +79,11 @@ foreach ($posts as $key => $post){
         ."</a> - <a href=\"blog_read.php?pid=".$post['id']."#feedback\">".$post['total_comments']
         ." comentário(s) (ultimo ".$post['last_comment'].")</a></h5>\n";
     echo "</header>\n";
-    echo "<div>".closetags($post['preview'])."<br /><p><a href=\"blog_read.php?pid=".$post['id']."\">Ver artigo completo</a></p></div>\n";
+    $list_content = closetags($post['preview']);
+    if( strlen($post['preview']) >= 1024 ){
+        $list_content = closetags($post['preview'] . " [continua ...]");
+    }
+    echo "<div>".$list_content."<br /><p><a href=\"blog_read.php?pid=".$post['id']."\">Ver artigo completo</a></p></div>\n";
     $tags = get_tags($post['id'], $mysqli);
     if(isset($tags) && !(empty($tags))){
         echo "<p>Categorias: ";

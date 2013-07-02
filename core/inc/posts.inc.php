@@ -28,7 +28,7 @@ function get_posts($isFull = false, $mysqli = false, $page = null){
         $quant = MAX_ENTRY + 1;
         $limits = "LIMIT {$pos} , {$quant}";
     }
-    $dim = $isFull ? '`posts`.`post_body`' :'LEFT( `posts`.`post_body` , 512 )';
+    $dim = $isFull ? '`posts`.`post_body`' :'LEFT( `posts`.`post_body` , 1024 )';
     $dat = $isFull ? '`posts`.`post_date`' :"DATE_FORMAT( `posts`.`post_date` , '%d/%m/%Y %H:%i:%s' )";
     $sql = "SELECT `posts`.`post_id` AS `id` , `posts`.`post_title` AS `title` , ".$dim." AS `preview` , `posts`.`post_user` AS `user` , " . $dat . " AS `date` , `comments`.`total_comments` AS `total_comments` , DATE_FORMAT( `comments`.`last_comment` , '%d/%m/%Y %H:%i:%s' ) AS `last_comment`
 FROM `posts`
