@@ -190,15 +190,25 @@ ul#menu li a:hover
   padding: 0 15px 15px 15px;
 }
 .about
-{ margin: 0 24px 27px 0;
+{ margin: 0;
   background: #FBFBFB;
   border: 1px solid #eee;
   padding: 0 15px 15px 15px;
 }
+.about p, .about td
+{
+    padding: 0 5px 5px 5px;
+    line-height: 1.5em;
+    font-size: 90%;
+    text-align: justify;
+    vertical-align: top;
+}
 
 .sidebar h3, .content h1
-{ padding: 10px 15px;
-  margin: 0 1px;}
+{
+    padding: 10px 15px;
+    margin: 0 1px;
+}
 
 .sidebar h1
 { padding: 5px 0 0 0;}
