@@ -30,9 +30,23 @@ foreach($result as $row) {
             }
         }
     }
+    
+    $html = new DOMDocument();
+    @$html->loadHTML($preview);
+    $imgs = $html->getElementsByTagName('img');
+    foreach($imgs as $img){
+        $img->removeAttribute('data-mce-src');
+        $img->removeAttribute('data-mce-style');
+    }
+    $as = $html->getElementsByTagName('a');
+    foreach($as as $a){
+        $a->removeAttribute('data-mce-href');
+    }
+    
+    
     $rssfeed .= '		<item>'. PHP_EOL;
     $rssfeed .= '			<title>' . html_entity_decode($title) . '</title>' . PHP_EOL;
-    $rssfeed .= '			<description><![CDATA[' . strip_tags($preview, '<img><a>') . ']]></description>' . PHP_EOL;
+    $rssfeed .= '			<description><![CDATA[' . strip_tags($html->saveHTML(), '<b><em><br><ol><li><ul><img><p><a>') . ']]></description>' . PHP_EOL;
     $rssfeed .= '			<author>' . $email . ' (' . $user . ')' . '</author>' . PHP_EOL;
     $rssfeed .= '			<link>' . htmlentities('http://myphpblog.vacau.com/blog_read.php?pid=' . $pid) . '</link>' . PHP_EOL;
     $rssfeed .= '			<guid>' . htmlentities('http://myphpblog.vacau.com/blog_read.php?pid=' . $pid) . '</guid>' . PHP_EOL;
