@@ -80,8 +80,9 @@ foreach ($posts as $key => $post){
         ." comentário(s) (ultimo ".$post['last_comment'].")</a></h5>\n";
     echo "</header>\n";
     $list_content = closetags($post['preview']);
+    $list_content = strip_tags($list_content, '<img>');
     if( strlen($post['preview']) >= 1024 ){
-        $list_content = closetags($post['preview'] . " [continua ...]");
+        $list_content .= " [continua ...]";
     }
     echo "<div>".$list_content."<br /><p><a href=\"blog_read.php?pid=".$post['id']."\">Ver artigo completo</a></p></div>\n";
     $tags = get_tags($post['id'], $mysqli);
@@ -122,33 +123,39 @@ echo
 </body>
 </html>';
 
-function closetags ( $html )
-{
-    //put all opened tags into an array
-    preg_match_all ( "#<([a-z]+)( .*)?(?!/)>#iU", $html, $result );
+function closeTags( $html ) {
+    preg_match_all("##iU", $html, $result, PREG_OFFSET_CAPTURE);
+
+    if (!isset($result[1]))
+        return $html;
+
     $openedtags = $result[1];
-    //put all closed tags into an array
-    preg_match_all ( "#</([a-z]+)>#iU", $html, $result );
-    $closedtags = $result[1];
-    $len_opened = count ( $openedtags );
-    //all tags are closed
-    if( count ( $closedtags ) == $len_opened )
-        {
-            return $html;
-        }
-    $openedtags = array_reverse ( $openedtags );
-    //close tags
-    for( $i = 0; $i < $len_opened; $i++ )
-        {
-            if ( !in_array ( $openedtags[$i], $closedtags ) )
-                {
-                    $html .= "</" . $openedtags[$i] . ">";
-                }
-            else
-                {
-                    unset ( $closedtags[array_search ( $openedtags[$i], $closedtags)] );
-                }
-        }
+    $len_opened = count($openedtags);
+
+    if (!$len_opened)
+        return $html;
+
+    preg_match_all("##iU", $html, $result, PREG_OFFSET_CAPTURE);
+    $closedtags = array();
+
+    foreach($result[1] as $tag)
+        $closedtags[$tag[1]] = $tag[0];
+
+    $openedtags = array_reverse($openedtags);
+
+    for($i = 0; $i < $len_opened; $i++) {
+        if (preg_match('/(img|br|hr)/i', $openedtags[$i][0]))
+            continue;
+
+        $found = array_search($openedtags[$i][0], $closedtags);
+
+        if (!$found || $found < $openedtags[$i][1])
+            $html .= "";
+
+        if ($found)
+            unset($closedtags[$found]);
+    }
+
     return $html;
 }
 

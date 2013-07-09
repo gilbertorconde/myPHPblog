@@ -32,7 +32,7 @@ foreach($result as $row) {
     }
     $rssfeed .= '		<item>'. PHP_EOL;
     $rssfeed .= '			<title>' . html_entity_decode($title) . '</title>' . PHP_EOL;
-    $rssfeed .= '			<description><![CDATA[' . $preview . ']]></description>' . PHP_EOL;
+    $rssfeed .= '			<description><![CDATA[' . strip_tags($preview, '<img><a>') . ']]></description>' . PHP_EOL;
     $rssfeed .= '			<author>' . $email . ' (' . $user . ')' . '</author>' . PHP_EOL;
     $rssfeed .= '			<link>' . htmlentities('http://myphpblog.vacau.com/blog_read.php?pid=' . $pid) . '</link>' . PHP_EOL;
     $rssfeed .= '			<guid>' . htmlentities('http://myphpblog.vacau.com/blog_read.php?pid=' . $pid) . '</guid>' . PHP_EOL;
