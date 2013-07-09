@@ -42,6 +42,14 @@ foreach($result as $row) {
     foreach($as as $a){
         $a->removeAttribute('data-mce-href');
     }
+    $uls = $html->getElementsByTagName('ul');
+    foreach($uls as $ul){
+        $ul->removeAttribute('data-mce-style');
+    }
+    $ps = $html->getElementsByTagName('p');
+    foreach($ps as $p){
+        $p->removeAttribute('data-mce-style');
+    }
     
     
     $rssfeed .= '		<item>'. PHP_EOL;
