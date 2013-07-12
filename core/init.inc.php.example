@@ -22,5 +22,6 @@ function curPageURL() {
 
 include('inc/posts.inc.php');
 include('inc/comments.inc.php');
+include('inc/admin.inc.php');
 
 ?>

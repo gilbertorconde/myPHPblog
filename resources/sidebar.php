@@ -18,7 +18,7 @@ $tags = get_all_tags($mysqli);
 echo 
 '
 
-<img class="paperclip" src="style/paperclip.png" alt="paperclip" />
+<img class="paperclip" src="style/'.$_SESSION['style'].'/paperclip.png" alt="paperclip" />
 <div class="sidebar">
 <h3>Categorias</h3>
 <ul>
@@ -39,15 +39,15 @@ echo
 echo
 '
 
-<img class="paperclip" src="style/paperclip.png" alt="paperclip" />
+<img class="paperclip" src="style/'.$_SESSION['style'].'/paperclip.png" alt="paperclip" />
 <div class="sidebar">
 <h3>Subscrever</h3>
 <p style="text-align:center">
-<a href="rss.php"><img src="style/rss.png" alt="RSS Feed" /></a>
+<a href="rss.php"><img src="style/'.$_SESSION['style'].'/rss.png" alt="RSS Feed" /></a>
 </p>
 <p style="text-align:center">
 <a href="http://feed2.w3.org/check.cgi?url=http%3A//myphpblog.vacau.com/rss.php">
-<img src="style/valid-rss-rogers.png" alt="[Valid RSS]" title="Validate my RSS feed" />
+<img src="style/'.$_SESSION['style'].'/valid-rss-rogers.png" alt="[Valid RSS]" title="Validate my RSS feed" />
 </a>
 </p>
 </div>
@@ -58,7 +58,7 @@ echo
 ////////////////////////// Arquivo ///////////////////////////////////
 echo
 '
-<img class="paperclip" src="style/paperclip.png" alt="paperclip" />
+<img class="paperclip" src="style/'.$_SESSION['style'].'/paperclip.png" alt="paperclip" />
 <div class="sidebar">
 <h3>Arquivo</h3>
 ';

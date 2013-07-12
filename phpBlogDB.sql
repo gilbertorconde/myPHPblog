@@ -96,3 +96,23 @@ CREATE TABLE IF NOT EXISTS `tags` (
   `tag_name` varchar(128) NOT NULL,
   PRIMARY KEY (`tag_id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=26 ;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura da tabela `admin`
+--
+
+CREATE TABLE IF NOT EXISTS `admin` (
+  `username` varchar(30) NOT NULL,
+  `email` varchar(50) NOT NULL,
+  `language` varchar(5) NOT NULL,
+  `style` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `admin`
+--
+
+INSERT INTO `admin` (`username`, `email`, `language`, `style`) VALUES
+('test_user', 'test@example.com', 'pt-pt', 'gconde');

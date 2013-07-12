@@ -1,6 +1,6 @@
 <?php
 include('login.func.php');
-sec_session_start();
+sec_session_start($mysqli);
 // Zera todos os valores da sessão
 $_SESSION = array();
 // Pega os parâmetros da sessão 

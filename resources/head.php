@@ -14,7 +14,6 @@ echo
 <title>{$head_title}</title>
 <meta name=\"description\" content=\"website description\" />
 <meta name=\"keywords\" content=\"website keywords, website keywords\" />
-<link rel=\"stylesheet\" type=\"text/css\" href=\"http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz\" />
-<link rel=\"stylesheet\" type=\"text/css\" href=\"style/style.css\" />
+<link rel=\"stylesheet\" type=\"text/css\" href=\"style/".$_SESSION['style']."/style.css\" />
 </head>";
 ?>

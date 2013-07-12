@@ -1,5 +1,5 @@
 <?php
-function sec_session_start() {
+function sec_session_start($mysqli) {
     $session_name = 'sec_session_id'; // Define um nome padrão de sessão
     $secure = false; // Defina como true (verdadeiro) caso esteja utilizando https.
     $httponly = true; // Isto impede que o javascript seja capaz de acessar a id de sessão. 
@@ -10,6 +10,7 @@ function sec_session_start() {
     session_name($session_name); // Define o nome da sessão como sendo o acima definido.
     session_start(); // Inicia a sessão php.
     session_regenerate_id(true); // regenerada a sessão, deleta a outra.
+    makeSessionVariables($mysqli);
 }
 
 function passwd_verify($password, $email, $mysqli){

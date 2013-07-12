@@ -1,11 +1,13 @@
 <?php
 
 include('core/init.inc.php');
+include('login/login.func.php');
+sec_session_start($mysqli);
 
 //header("Content-Type: application/rss+xml; charset=UTF-8");
 header("Content-Type: text/xml; charset=UTF-8");
  
-$rssfeed = '<?xml-stylesheet type="text/xsl"  href="http://myphpblog.vacau.com/style/rss.xsl"?>'. PHP_EOL;
+$rssfeed = '<?xml-stylesheet type="text/xsl"  href="http://myphpblog.vacau.com/style/'.$_SESSION['style'].'/rss.xsl"?>'. PHP_EOL;
 $rssfeed .= '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">'. PHP_EOL;
 $rssfeed .= '	<channel>'. PHP_EOL;
 $rssfeed .= '		<atom:link href="http://myphpblog.vacau.com/rss.php" rel="self" type="application/rss+xml" />' . PHP_EOL;

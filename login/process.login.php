@@ -1,7 +1,7 @@
 <?php
 include('../core/init.inc.php');
 include('login.func.php');
-sec_session_start(); // Nossa segurança personalizada para iniciar uma sessão php. 
+sec_session_start($mysqli); // Nossa segurança personalizada para iniciar uma sessão php. 
 if(isset($_POST['email'], $_POST['password'])) { 
    $email = $_POST['email'];
    $password = $_POST['p']; // A senha em hash.

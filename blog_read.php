@@ -2,7 +2,7 @@
 
 include('core/init.inc.php');
 include('login/login.func.php');
-sec_session_start();
+sec_session_start($mysqli);
 
 $user_loged = false;
 $div_class = 'notEdit';
