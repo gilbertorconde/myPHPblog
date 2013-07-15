@@ -84,7 +84,7 @@ foreach ($posts as $key => $post){
     if( strlen($post['preview']) >= 1024 ){
         $list_content .= " [continua ...]";
     }
-    echo "<div>".$list_content."<br /><p><a href=\"blog_read.php?pid=".$post['id']."\">Ver artigo completo</a></p></div>\n";
+    echo "<div><p>".$list_content."</p><p><a href=\"blog_read.php?pid=".$post['id']."\">Ver artigo completo</a></p></div>\n";
     $tags = get_tags($post['id'], $mysqli);
     if(isset($tags) && !(empty($tags))){
         echo "<p>Categorias: ";

@@ -10,6 +10,7 @@ function valid_pid($pid, $mysqli){
         $stmt->execute();
         $stmt->bind_result($total);
         $stmt->fetch();
+        $stmt->close();
         if ($total != 1){
             return false;
         }
@@ -51,6 +52,7 @@ ORDER BY `posts`.`post_date` DESC
                 $row['last_comment']  = ($row['last_comment'] === null) ? 'nunca' : $row['last_comment'];
                 $rows[] = $row;
             }
+            $stmt->close();
         }
     }
     return $rows;
@@ -98,6 +100,7 @@ ORDER BY `posts`.`post_date` DESC
             while ($row = $stmt->fetch_assoc()){
                 $pids[] = $row['id'];
             }
+            $stmt->close();
         }
     }
     
@@ -112,6 +115,7 @@ ORDER BY `posts`.`post_date` DESC
                     $rows[] = $row;
                 }
             }
+            $stmt->close();
         }
     }
     return $rows;
@@ -125,6 +129,7 @@ function get_users($mysqli){
         while ($row = $stmt->fetch_assoc()){
             $rows[] = $row;
         }
+        $stmt->close();
     }
     return $rows;
 }
@@ -134,6 +139,7 @@ function get_user($uid, $mysqli){
     if($stmt = $mysqli->query("SELECT `username`, `email`, `about` FROM `members` WHERE `id`={$uid}")){
         $row = $stmt->fetch_assoc();
     }
+    $stmt->close();
     return $row;
 }
 
@@ -158,6 +164,7 @@ function get_post( $pid, $mysqli ){
             $row['about_user'] = $about['about'];
         }
     }
+    $stmt->close();
     $row['comments'] = get_comments($pid, $mysqli);
     return $row;
 }
@@ -174,6 +181,7 @@ function get_tags( $pid, $mysqli ){
         while ($row = $stmt->fetch_assoc()){
             $rows[] = $row['tag_name'];
         }
+        $stmt->close();
     }
     return $rows;
 }
@@ -188,6 +196,7 @@ function get_all_tags($mysqli){
         while ($row = $stmt->fetch_assoc()){
             $rows[] = $row['tag_name'];
         }
+        $stmt->close();
     }
     return $rows;
 }

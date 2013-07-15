@@ -14,8 +14,9 @@ body
   color: #555;}
 
 p
-{ padding: 0 0 20px 0;
+{ padding: 0 5px 20px 0;
   line-height: 1.5em;
+  text-align: justify;
   font-size: 107%;}
 
 img
@@ -275,6 +276,43 @@ ul#menu li a:hover
   float: left; 
   width: 170px; 
   text-align: left;}
+
+textarea {
+    background: #2B1B17;
+    border: 2px double #2B1B17;
+    -webkit-box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 255);
+        box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 255);
+    width: 100%;
+    color: white;
+}
+
+input[type=submit]{
+    background: #2B1B17;
+    border: 2px double #2B1B17;
+    padding: 2px;
+    -webkit-box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 255);
+        box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 255);
+    color: white;
+}
+
+input[type=button]{
+    background: #2B1B17;
+    border: 2px double #2B1B17;
+    padding: 2px;
+    -webkit-box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 255);
+        box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 255);
+    color: white;
+}
+
+input[type=text], input[type=password]{
+    background: #2B1B17;
+    border: 2px double #2B1B17;
+    padding: 2px;
+    -webkit-box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 255);
+        box-shadow: inset 0px 0px 0px 1px rgba(255, 255, 255, 255);
+    width: 100%;
+    color: white;
+}
 
 .form_settings input, .form_settings textarea
 { width: 252px; 

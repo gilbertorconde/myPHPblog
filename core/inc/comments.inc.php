@@ -17,6 +17,7 @@ function get_comments($pid, $mysqli){
         while ($row = $stmt->fetch_assoc()){
             $return[] = $row;
         }
+        $stmt->close();
     }
     return $return;
 }
