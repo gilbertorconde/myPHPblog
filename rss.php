@@ -31,7 +31,7 @@ $rss->appendChild($r_atom);
 $doc->appendChild($rss);
 
 $channel = $doc->createElement('channel');
-$c_atom = $doc->createElementNS('http://myphpblog.vacau.com/rss.php', 'atom:link');
+$c_atom = $doc->createElementNS('http://www.w3.org/2005/Atom', 'atom:link');
 
 $at_href = $doc->createAttribute('href');
 $at_href->value = 'http://myphpblog.vacau.com/rss.php';
@@ -91,32 +91,13 @@ foreach($result as $row) {
             $element->removeAttribute('data-mce-style');
         }
     }
-    
-    
-    /* $imgs = $html->getElementsByTagName('img'); */
-    /* foreach($imgs as $img){ */
-    /*     $img->removeAttribute('data-mce-src'); */
-    /*     $img->removeAttribute('data-mce-style'); */
-    /* } */
-    /* $as = $html->getElementsByTagName('a'); */
-    /* foreach($as as $a){ */
-    /*     $a->removeAttribute('data-mce-href'); */
-    /* } */
-    /* $uls = $html->getElementsByTagName('ul'); */
-    /* foreach($uls as $ul){ */
-    /*     $ul->removeAttribute('data-mce-style'); */
-    /* } */
-    /* $ps = $html->getElementsByTagName('p'); */
-    /* foreach($ps as $p){ */
-    /*     $p->removeAttribute('data-mce-style'); */
-    /* } */
 
     $item = $doc->createElement('item');
     $channel->appendChild($item);
 
     $i_title = $doc->createElement('title', html_entity_decode($title));
     $i_description = $doc->createElement('description');
-    $c_data = $doc->createCDATASection(strip_tags($html->saveHTML($html->documentElement), '<b><em><br><ol><li><ul><img><p><a>'));
+    $c_data = $doc->createCDATASection(strip_tags($html->saveHTML(), '<b><em><br><ol><li><ul><img><p><a>'));
     $i_description->appendChild($c_data);
     $i_author = $doc->createElement('author', $email . ' (' . $user . ')');
     $i_link = $doc->createElement('link', htmlentities('http://myphpblog.vacau.com/blog_read.php?pid=' . $pid));
