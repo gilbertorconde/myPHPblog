@@ -56,6 +56,8 @@ echo
 //////////////////////////////////////////////////////////////////////
 
 ////////////////////////// Arquivo ///////////////////////////////////
+include('funcs/archive.php');
+
 echo
 '
 <img class="paperclip" src="style/'.$_SESSION['style'].'/paperclip.png" alt="paperclip" />
@@ -63,7 +65,6 @@ echo
 <h3>Arquivo</h3>
 ';
 $posta = get_posts(false, $mysqli);
-
 $byear = array();
 foreach($posta as $pos){
     $aux = explode(' ', $pos['date']);
@@ -79,7 +80,7 @@ foreach($byear as $yearn => $yearo){
     echo "<li class=\"ano\" > Ano: " . $yearn . "</li>\n";
     echo "<ul class=\"mes\"\n>";
     foreach($yearo as $monthn => $monthv){
-    echo "<li class=\"mes\" > Mes: " . $monthn . "</li>\n";
+        echo "<li class=\"mes\" > Mes: " . makeMonth($monthn, $_SESSION['language']) . "</li>\n";
     echo "<ul class=\"dia\">\n";
     foreach($monthv as $contets){
         echo "<li class=\"dia\">" . $contets . "</li>\n";
