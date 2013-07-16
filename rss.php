@@ -74,32 +74,49 @@ foreach($result as $row) {
         }
     }
     
-    $html = new DOMDocument('1.0', 'UTF-8');
-    @$html->loadHTML(htmlentities($preview));
-    $imgs = $html->getElementsByTagName('img');
-    foreach($imgs as $img){
-        $img->removeAttribute('data-mce-src');
-        $img->removeAttribute('data-mce-style');
+    $html = new DOMDocument('1.0');
+    $searchPage = mb_convert_encoding($preview, 'HTML-ENTITIES', "UTF-8");
+    @$html->loadHTML($searchPage);
+    // htmlentities();
+    $elements_array = array();
+    $elements_array[0] = $html->getElementsByTagName('img');
+    $elements_array[1] = $html->getElementsByTagName('a');
+    $elements_array[2] = $html->getElementsByTagName('ul');
+    $elements_array[3] = $html->getElementsByTagName('p');
+    
+    foreach($elements_array as $elements){
+        foreach($elements as $element){
+            $element->removeAttribute('data-mce-src');
+            $element->removeAttribute('data-mce-href');
+            $element->removeAttribute('data-mce-style');
+        }
     }
-    $as = $html->getElementsByTagName('a');
-    foreach($as as $a){
-        $a->removeAttribute('data-mce-href');
-    }
-    $uls = $html->getElementsByTagName('ul');
-    foreach($uls as $ul){
-        $ul->removeAttribute('data-mce-style');
-    }
-    $ps = $html->getElementsByTagName('p');
-    foreach($ps as $p){
-        $p->removeAttribute('data-mce-style');
-    }
+    
+    
+    /* $imgs = $html->getElementsByTagName('img'); */
+    /* foreach($imgs as $img){ */
+    /*     $img->removeAttribute('data-mce-src'); */
+    /*     $img->removeAttribute('data-mce-style'); */
+    /* } */
+    /* $as = $html->getElementsByTagName('a'); */
+    /* foreach($as as $a){ */
+    /*     $a->removeAttribute('data-mce-href'); */
+    /* } */
+    /* $uls = $html->getElementsByTagName('ul'); */
+    /* foreach($uls as $ul){ */
+    /*     $ul->removeAttribute('data-mce-style'); */
+    /* } */
+    /* $ps = $html->getElementsByTagName('p'); */
+    /* foreach($ps as $p){ */
+    /*     $p->removeAttribute('data-mce-style'); */
+    /* } */
 
     $item = $doc->createElement('item');
     $channel->appendChild($item);
 
     $i_title = $doc->createElement('title', html_entity_decode($title));
     $i_description = $doc->createElement('description');
-    $c_data = $doc->createCDATASection(strip_tags(html_entity_decode($html->saveHTML()), '<b><em><br><ol><li><ul><img><p><a>'));
+    $c_data = $doc->createCDATASection(strip_tags($html->saveHTML($html->documentElement), '<b><em><br><ol><li><ul><img><p><a>'));
     $i_description->appendChild($c_data);
     $i_author = $doc->createElement('author', $email . ' (' . $user . ')');
     $i_link = $doc->createElement('link', htmlentities('http://myphpblog.vacau.com/blog_read.php?pid=' . $pid));
