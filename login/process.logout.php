@@ -1,4 +1,5 @@
 <?php
+include('../core/init.inc.php');
 include('login.func.php');
 sec_session_start($mysqli);
 // Zera todos os valores da sessão

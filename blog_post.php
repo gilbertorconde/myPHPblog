@@ -74,8 +74,10 @@ echo
 <p>
 <textarea name="body" rows="20" cols="60"></textarea>
 </p>
-<p>
-<label for="user">Categorias (separadas por virgulas ex: php, html, css)</label>
+<p style="text-align: left;">
+<label for="user">
+Categorias (separadas por virgulas ex: php, html, css).
+</label>
 <input type="text" name="tags" id="tags" />
 </p>
 <p>

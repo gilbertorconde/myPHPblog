@@ -75,18 +75,18 @@ echo
 '<form action="" method="post" name="change_pass_form" >
 <fieldset>
 <legend>Palavra passe de '.$_SESSION['username'].':</legend>
-<p>
+<p style="text-align: left;">
 <label for="oldpwd">Palavra passe atual</label>
 <input type="password" name="oldpwd" id="oldpwd" required />
 </p>
-<p>
+<p style="text-align: left;">
 <label for="newpwd">Nova palavra passe</label>
 <input type="password" name="newpwd" id="newpwd" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])\w{6,}"
 onchange=" this.setCustomValidity(this.validity.patternMismatch ? 
 \'Password deve conter pelo menos 6 caracteres, incluindo MAIÚSCULAS/minúsculas e numero(s)\' : \'\');
 if(this.checkValidity()) form.reppwd.pattern = this.value;" />
 </p>
-<p>
+<p style="text-align: left;">
 <label for="reppwd">Palavra passe atual</label>
 <input type="password" name="reppwd" id="reppwd" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])\w{6,}"
 onchange=" this.setCustomValidity(this.validity.patternMismatch ? 
