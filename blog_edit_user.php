@@ -87,7 +87,7 @@ onchange=" this.setCustomValidity(this.validity.patternMismatch ?
 if(this.checkValidity()) form.reppwd.pattern = this.value;" />
 </p>
 <p style="text-align: left;">
-<label for="reppwd">Palavra passe atual</label>
+<label for="reppwd">Repetir a nova palavra passe</label>
 <input type="password" name="reppwd" id="reppwd" required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])\w{6,}"
 onchange=" this.setCustomValidity(this.validity.patternMismatch ? 
 \'Introduza a mesma password que colocou acima\' : \'\');" />
